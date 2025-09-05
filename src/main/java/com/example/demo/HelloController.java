@@ -1,9 +1,6 @@
 package com.example.demo;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -28,6 +25,14 @@ public class HelloController {
     public Message addMessageToStoredMessages(@RequestBody Message message) {
         storedMessages.add(message);
         return message; // return the saved message
+    }
+
+    @GetMapping("/messages/{id}")
+    public Message getMessageById(@PathVariable long id) {
+        return messages.stream()
+                .filter(m -> m.getId() == id)
+                .findFirst()
+                .orElse(null);
     }
 
     @GetMapping("/all-messages")
